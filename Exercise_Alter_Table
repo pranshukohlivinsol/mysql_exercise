@@ -14,3 +14,5 @@ alter table testing_table modify column roll_no int;
 OR
 
 alter table testing_table drop name, change contact_name username varchar(255), add column first_name varchar(255), add last_name varchar(255), modify column roll_no int;
+
+alter table testing_table drop name, rename column contact_name to username, add first_name varchar(255), add last_name varchar(255), modify column roll_no int;
