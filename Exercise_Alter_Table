@@ -1,18 +1,18 @@
-create table testing_table (name varchar(255), contact_name varchar(255), roll_no varchar(255));
+CREATE TABLE testing_table (name varchar(255), contact_name varchar(255), roll_no varchar(255));
 
 
-alter table testing_table drop name;
+ALTER TABLE testing_table DROP name;
 
-alter table testing_table change contact_name username varchar(255);
+ALTER TABLE testing_table CHANGE contact_name username varchar(255);
   OR
-alter table testing_table rename column contact_name to username;
+ALTER TABLE testing_table RENAME COLUMN contact_name TO username;
 
-alter table testing_table add column first_name varchar(255), add last_name varchar(255);
+ALTER TABLE testing_table ADD COLUMN first_name varchar(255), ADD last_name varchar(255);
 
-alter table testing_table modify column roll_no int;
+ALTER TABLE testing_table MODIFY COLUMN roll_no INT;
 
 OR
 
-alter table testing_table drop name, change contact_name username varchar(255), add column first_name varchar(255), add last_name varchar(255), modify column roll_no int;
+ALTER TABLE testing_table DROP name, CHANGE contact_name username varchar(255), ADD column first_name varchar(255), ADD last_name varchar(255), MODIFY column roll_no INT;
 
-alter table testing_table drop name, rename column contact_name to username, add first_name varchar(255), add last_name varchar(255), modify column roll_no int;
+ALTER TABLE testing_table DROP name, RENAME COLUMN contact_name TO username, ADD first_name varchar(255), ADD last_name varchar(255), MODIFY COLUMN roll_no INT;
