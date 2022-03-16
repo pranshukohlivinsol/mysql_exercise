@@ -8,5 +8,5 @@ SELECT branch FROM branches WHERE title IN (SELECT title from titles where publi
 SELECT branch FROM titles JOIN branches USING(title) WHERE publisher="Ann Brown";
 
 4.
-select branch, sum(copies) as num_of_books from branches group by branch;
+SELECT branch, SUM(copies) AS num_of_books FROM branches GROUP BY branch;
 
