@@ -1,4 +1,51 @@
-describe users;
++-----------------+
+| Tables_in_exer3 |
++-----------------+
+| articles        |
+| articles_body   |
+| categories      |
+| comments        |
+| users           |
++-----------------+
+
+articles;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int          | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(255) | NO   |     | NULL    |                |
+| category_id | int          | NO   |     | NULL    |                |
+| user_id     | int          | NO   |     | NULL    |                |
+| created_on  | datetime     | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+
+articles_body;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| article_id | int  | NO   |     | NULL    |       |
+| body       | text | YES  |     | NULL    |       |
++------------+------+------+-----+---------+-------+
+
+categories;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int         | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(40) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+
+comments;
++------------+----------+------+-----+---------+----------------+
+| Field      | Type     | Null | Key | Default | Extra          |
++------------+----------+------+-----+---------+----------------+
+| id         | int      | NO   | PRI | NULL    | auto_increment |
+| article_id | int      | NO   |     | NULL    |                |
+| user_id    | int      | NO   |     | NULL    |                |
+| created_on | datetime | NO   |     | NULL    |                |
++------------+----------+------+-----+---------+----------------+
+
+users;
 +-------+------------------------+------+-----+---------+----------------+
 | Field | Type                   | Null | Key | Default | Extra          |
 +-------+------------------------+------+-----+---------+----------------+
@@ -6,13 +53,5 @@ describe users;
 | name  | varchar(40)            | NO   | UNI | NULL    |                |
 | type  | enum('admin','normal') | NO   |     | NULL    |                |
 +-------+------------------------+------+-----+---------+----------------+
-
-describe categories;
-+-------+-------------+------+-----+---------+----------------+
-| Field | Type        | Null | Key | Default | Extra          |
-+-------+-------------+------+-----+---------+----------------+
-| id    | int         | NO   | PRI | NULL    | auto_increment |
-| name  | varchar(40) | NO   | UNI | NULL    |                |
-+-------+-------------+------+-----+---------+----------------+
 
 
