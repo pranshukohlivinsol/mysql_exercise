@@ -1,4 +1,9 @@
-SELECT Location FROM sandwiches WHERE filling IN(SELECT Filling FROM tastes WHERE Name="Jones");
-SELECT Location FROM sandwiches AS s,tastes AS t WHERE s.Filling=t.Filling AND Name="Jones";
+1. SELECT Location FROM sandwiches WHERE filling IN(SELECT Filling FROM tastes WHERE Name="Jones");
+
+2.
+SELECT Location FROM sandwiches AS s, tastes AS t WHERE s.Filling=t.Filling AND Name="Jones";
 SELECT Location FROM sandwiches join tastes USING(Filling) where Name="Jones";
 SELECT Location FROM sandwiches as s JOIN tastes as t ON s.Filling=t.Filling AND Name="Jones";
+
+3.
+SELECT location, COUNT(DISTINCT(name)) as num_of_people FROM sandwiches AS s JOIN tastes AS t USING(filling) group by location;
