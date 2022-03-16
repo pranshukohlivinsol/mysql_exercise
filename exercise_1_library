@@ -1,0 +1,12 @@
+1.
+SELECT title FROM titles WHERE publisher="Macmillan";
+
+2.
+SELECT branch FROM branches WHERE title IN (SELECT title from titles where publisher="Ann Brown");
+
+3.
+SELECT branch FROM titles JOIN branches USING(title) WHERE publisher="Ann Brown";
+
+4.
+select branch, sum(copies) as num_of_books from branches group by branch;
+
