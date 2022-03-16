@@ -1,0 +1,4 @@
+SELECT Location FROM sandwiches WHERE filling IN(SELECT Filling FROM tastes WHERE Name="Jones");
+SELECT Location FROM sandwiches AS s,tastes AS t WHERE s.Filling=t.Filling AND Name="Jones";
+SELECT Location FROM sandwiches join tastes USING(Filling) where Name="Jones";
+SELECT Location FROM sandwiches as s JOIN tastes as t ON s.Filling=t.Filling AND Name="Jones";
