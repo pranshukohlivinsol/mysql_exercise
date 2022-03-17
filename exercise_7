@@ -1,9 +1,20 @@
 1.
  id : gives the level of nested query. (1 for not nested/union)
- select_type :
- table :
- type :
- possible_keys :
- key :
- key_len :
- ref : rows
+ select_type : type of nested query.SIMPLE for no nest
+ table : table_name
+ type : how many rows scanned(indexed or all or other)
+ possible_keys : index that can be used
+ key : index used
+ key_len : length of index used
+ ref : refered column
+ rows : no of rows to be scaned
+ Extra : addition conditions used to minimise data
+
+2.1
+As there no primary key in "comments" tables given, there is no INDEX hence it scans all the rows in "comments" table
+2.2
+Need to add a "id" as primary key column in comments to have and Index to optimise
+
+3.1
+"id" column can be indexed using primary key
+
