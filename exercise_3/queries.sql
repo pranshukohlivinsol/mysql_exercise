@@ -27,6 +27,7 @@ SELECT a.title, com.comment
   ON a.id = com.article_id;
 
 4.
+SELECT title FROM articles WHERE id NOT IN(SELECT article_id FROM comments);
 
 
 5.
