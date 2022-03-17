@@ -1,0 +1,18 @@
+users;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(40) | NO   |     | NULL    |                |
+| email      | varchar(40) | NO   | UNI | NULL    |                |
+| account_no | bigint      | NO   | UNI | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+
+accounts;
++------------+--------+------+-----+---------+----------------+
+| Field      | Type   | Null | Key | Default | Extra          |
++------------+--------+------+-----+---------+----------------+
+| id         | int    | NO   | PRI | NULL    | auto_increment |
+| account_no | bigint | NO   | UNI | NULL    |                |
+| balance    | int    | NO   |     | NULL    |                |
++------------+--------+------+-----+---------+----------------+
