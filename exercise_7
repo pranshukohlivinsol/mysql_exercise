@@ -1,0 +1,9 @@
+1.
+ id : gives the level of nested query. (1 for not nested/union)
+ select_type :
+ table :
+ type :
+ possible_keys :
+ key :
+ key_len :
+ ref : rows
