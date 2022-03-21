@@ -28,4 +28,12 @@ SELECT sum(commission_amount) AS comm, e.department_id AS dept_id, d.name as dep
   GROUP BY d.id LIMIT 1;
   
 4.
-
+SELECT e.name, c.commission_amount 
+  INTO outfile "/tmp/test1.txt" 
+    FIELDS 
+      TERMINATED BY "," 
+    LINES 
+      TERMINATED BY "" 
+  FROM employees AS e JOIN commissions as c 
+  ON e.id=c.employee_id 
+  WHERE c.commission_amount>3000;
