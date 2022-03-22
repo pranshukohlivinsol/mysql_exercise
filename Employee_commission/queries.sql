@@ -25,15 +25,12 @@ SELECT salary
 SELECT sum(commission_amount) AS comm, e.department_id AS dept_id, d.name as dept_name  
   FROM commissions AS c JOIN employees AS e JOIN departments as d 
   ON c.employee_id=e.id  AND e.department_id=d.id   
-  GROUP BY d.id LIMIT 1;
+  GROUP BY d.id ORDER BY comm DESC LIMIT 1;
   
 4.
-SELECT e.name, c.commission_amount 
-  INTO outfile "/tmp/test1.txt" 
-    FIELDS 
-      TERMINATED BY "," 
-    LINES 
-      TERMINATED BY "" 
-  FROM employees AS e JOIN commissions as c 
-  ON e.id=c.employee_id 
-  WHERE c.commission_amount>3000;
+SELECT e.name, sum(c.commission_amount) as total_commission 
+  FROM employees AS e JOIN commissions as c
+  ON e.id=c.employee_id
+  WHERE c.commission_amount>3000 
+  GROUP BY c.employee_id;
+
