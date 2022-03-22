@@ -25,7 +25,9 @@ SELECT salary
 SELECT sum(commission_amount) AS comm, e.department_id AS dept_id, d.name as dept_name  
   FROM commissions AS c JOIN employees AS e JOIN departments as d 
   ON c.employee_id=e.id  AND e.department_id=d.id   
-  GROUP BY d.id ORDER BY comm DESC LIMIT 1;
+  GROUP BY d.id 
+  ORDER BY comm 
+  DESC LIMIT 1;
   
 4.
 SELECT e.name, sum(c.commission_amount) as total_commission 
