@@ -16,5 +16,96 @@ As there no primary key in "comments" tables given, there is no INDEX hence it s
 Need to add a "id" as primary key column in comments to have and Index to optimise
 
 3.1
-"id" column can be indexed using primary key
+As fetch is done for perticular Article Or Photo (represented by commentable_id 1 and 2), 
+it will be the best to index commentable_id first
+and then we can index the id too if it is not set as PIRMARY KEY
+
+4.1
+mysql> explain (select a.* from articles as a JOIN comments AS com ON a.id = com.article_id WHERE com.user_id=1 group by a.id);
++----+-------------+-------+------------+--------+--------------------------------+---------+---------+----------------------+------+----------+-----------------+
+| id | select_type | table | partitions | type   | possible_keys                  | key     | key_len | ref                  | rows | filtered | Extra           |
++----+-------------+-------+------------+--------+--------------------------------+---------+---------+----------------------+------+----------+-----------------+
+|  1 | SIMPLE      | com   | NULL       | ref    | article_id,user_id             | user_id | 4       | const                |    4 |   100.00 | Using temporary |
+|  1 | SIMPLE      | a     | NULL       | eq_ref | PRIMARY,fk_user_id,category_id | PRIMARY | 4       | exer3.com.article_id |    1 |   100.00 | NULL            |
++----+-------------+-------+------------+--------+--------------------------------+---------+---------+----------------------+------+----------+-----------------+ 
+ 
+ id : As no nesting(sub queries in 1st or 2nd table so both 1)
+ select_type : SIMPLE as no nest
+ table : Tables Name 'a' and 'com'
+ type : As scaned rows are only the references so ref and eq_ref
+ possible_keys : possible indexes that can be used
+ key : selected index used
+ key_len : length of index used
+ ref : refered column
+ rows : no of rows are only 4 for 'a' and 1 for 'com' as indexes are specified
+ Extra : addition conditions used to minimise data
+
+
+4.2
+QUERY1:(with join)
+ SELECT a.* 
+  FROM articles AS a 
+   JOIN comments AS com ON a.id = com.article_id 
+ WHERE com.user_id=1 
+ GROUP BY a.id;
++----+-----------------------------------+-------------+---------+---------------------+
+| id | title                             | category_id | user_id | created_on          |
++----+-----------------------------------+-------------+---------+---------------------+
+|  1 | What is MQTT??                    |           1 |       1 | 2022-03-16 20:17:34 |
+|  2 | Is it a good time to buy stocks?? |           2 |       1 | 2022-03-16 21:41:11 |
++----+-----------------------------------+-------------+---------+---------------------+
+2 rows in set (0.01 sec)
+
+
+
+QUERY 2: (with sub query)
+ SELECT * 
+  FROM articles 
+ WHERE id IN (
+       SELECT article_id 
+        FROM comments 
+       WHERE user_id=1
+      );
++----+-----------------------------------+-------------+---------+---------------------+
+| id | title                             | category_id | user_id | created_on          |
++----+-----------------------------------+-------------+---------+---------------------+
+|  1 | What is MQTT??                    |           1 |       1 | 2022-03-16 20:17:34 |
+|  2 | Is it a good time to buy stocks?? |           2 |       1 | 2022-03-16 21:41:11 |
++----+-----------------------------------+-------------+---------+---------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> explain (select a.* from articles as a JOIN comments AS com ON a.id = com.article_id WHERE com.user_id=1 group by a.id);
++----+-------------+-------+------------+--------+--------------------------------+---------+---------+----------------------+------+----------+-----------------+
+| id | select_type | table | partitions | type   | possible_keys                  | key     | key_len | ref                  | rows | filtered | Extra           |
++----+-------------+-------+------------+--------+--------------------------------+---------+---------+----------------------+------+----------+-----------------+
+|  1 | SIMPLE      | com   | NULL       | ref    | article_id,user_id             | user_id | 4       | const                |    4 |   100.00 | Using temporary |
+|  1 | SIMPLE      | a     | NULL       | eq_ref | PRIMARY,fk_user_id,category_id | PRIMARY | 4       | exer3.com.article_id |    1 |   100.00 | NULL            |
++----+-------------+-------+------------+--------+--------------------------------+---------+---------+----------------------+------+----------+-----------------+
+2 rows in set, 1 warning (0.01 sec)
+
+mysql> explain (SELECT * FROM articles WHERE id in (SELECT article_id FROM comments where user_id=1));
++----+--------------+-------------+------------+--------+---------------------+---------------------+---------+-------------------+------+----------+-------+
+| id | select_type  | table       | partitions | type   | possible_keys       | key                 | key_len | ref               | rows | filtered | Extra |
++----+--------------+-------------+------------+--------+---------------------+---------------------+---------+-------------------+------+----------+-------+
+|  1 | SIMPLE       | articles    | NULL       | ALL    | PRIMARY             | NULL                | NULL    | NULL              |    7 |   100.00 | NULL  |
+|  1 | SIMPLE       | <subquery2> | NULL       | eq_ref | <auto_distinct_key> | <auto_distinct_key> | 4       | exer3.articles.id |    1 |   100.00 | NULL  |
+|  2 | MATERIALIZED | comments    | NULL       | ref    | article_id,user_id  | user_id             | 4       | const             |    4 |   100.00 | NULL  |
++----+--------------+-------------+------------+--------+---------------------+---------------------+---------+-------------------+------+----------+-------+
+3 rows in set, 1 warning (0.00 sec)
+
+
+Conclusion:
+1. In the first one only 2 rows while in the 2nd one 3 rows due to subqueries
+2. In the first the type of article is ref(as it scan less rows) while in the 2nd the type is ALL so it has to scna all
+3. the key is also missing in the 2nd query explain for articles table
+4. Also the number of rows scanned for 1st query is les than that of 2md query
+
+Hence using this explain we can see that the 1st query(using join) is more efficient than the 2nd query(using sub queries)
+
+
+
+
+
+
 
