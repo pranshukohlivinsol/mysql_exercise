@@ -30,9 +30,11 @@ SELECT sum(commission_amount) AS comm, e.department_id AS dept_id, d.name as dep
   LIMIT 1;
   
 4.
-SELECT e.name, sum(c.commission_amount) as total_commission 
-  FROM employees AS e JOIN commissions as c
-  ON e.id=c.employee_id
-  WHERE c.commission_amount>3000 
-  GROUP BY c.employee_id;
+SELECT 
+  GROUP_CONCAT(e.name SEPARATOR ', ') AS Employee_Names, 
+  c.commission_amount 
+FROM employees AS e 
+  JOIN commissions as c ON e.id=c.employee_id 
+ WHERE c.commission_amount>3000 
+ GROUP BY c.commission_amount;
 
