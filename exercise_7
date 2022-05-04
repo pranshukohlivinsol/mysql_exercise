@@ -1,24 +1,37 @@
 1.
- id : gives the level of nested query. (1 for not nested/union)
- select_type : type of nested query.SIMPLE for no nest
+ id : gives the level of nested query. (1 for not nested/union):
+ --updated
+     This is the sequential number/identifier of the SELECT within the query.
+ select_type : type of nested query. SIMPLE for no nest:
+ --updated
+               SIMPLE , MATERIALISED, PRIMARY ,DERIVED, SUBQUERY, etc
  table : table_name
- type : how many rows scanned(indexed or all or other)
- possible_keys : index that can be used
- key : index used
- key_len : length of index used
+ type : how many rows scanned(indexed or all or other)[ALL, ref, eq_ref]
+ possible_keys : index that can be used[Primary keys, unique keys, etc]
+ key : index used from possible_keys
+ key_len : length of key used
  ref : refered column
  rows : no of rows to be scaned
  Extra : addition conditions used to minimise data
 
 2.1
 As there no primary key in "comments" tables given, there is no INDEX hence it scans all the rows in "comments" table
+--updated
+As the total id count is same as the number of rows scanned..the index is not used in user_id, Hence we need to add
+a index to reduce number of rows scanned.
+
 2.2
-Need to add a "id" as primary key column in comments to have and Index to optimise
+Need to add a "user_id" as a index column in comments table to optimise
 
 3.1
 As fetch is done for perticular Article Or Photo (represented by commentable_id 1 and 2), 
 it will be the best to index commentable_id first
-and then we can index the id too if it is not set as PIRMARY KEY
+and then we can index the user_id too
+--updated
+Yes we will add composite index with set priority:
+a) commentable_id or commentable_type: Lower number of distinct commentable_id/commentable_type
+b) user_id: As many users can be present should be indexed on 2nd priority
+INDEX type_index (commentable_id, user_id)
 
 4.1
 mysql> explain (select a.* from articles as a JOIN comments AS com ON a.id = com.article_id WHERE com.user_id=1 group by a.id);
